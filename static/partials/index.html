@@ -1,0 +1,9 @@
+<h1>Divvy Cloud Challenge</h1>
+
+<div ng-controller="APIFormController">
+  <label for="api_input">Please enter an EC2 API key</label><br>
+  <input type="text" name="api_input" ng-model="apiKeys.public" placeholder="Enter your public key"></input>
+  <input type="text" name="" ng-model="apiKeys.private" placeholder="Enter your private key"></input>
+  <button ng-click="sendKeys()" type="submit">Send API Keys</button>
+  <hr>
+</div>

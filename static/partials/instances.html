@@ -1,0 +1,20 @@
+<div ng-controller="InstancesViewController">
+  <table ng-model="instances" class="table">
+    <thead>
+      <th>InstanceId</th>
+      <th>InstanceType</th>
+      <th>LaunchTime</th>
+      <th>PublicIpAddress</th>
+      <th>PrivateIpAddress</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="instance in instances">
+        <th>{{instance.InstanceId}}</th>
+        <th>{{instance.InstanceType}}</th>
+        <th>{{instance.LaunchTime}}</th>
+        <th>{{instance.PublicIpAddress}}</th>
+        <th>{{instance.PrivateIpAddress}}</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
