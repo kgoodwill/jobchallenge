@@ -26,8 +26,6 @@ def keys():
         return response
 
     if request.method == "POST":
-        print("POST")
-
         key = json.loads(request.data)
 
         client = boto3.client(
@@ -37,30 +35,30 @@ def keys():
             region_name="us-east-2"
         )
 
-        response_data = {}
+        response_data = []
 
         return_data = client.describe_instances()
         reservations = return_data['Reservations']
         for reservation in reservations:
             instances = reservation['Instances']
             for instance in instances:
-                print(instance['PublicIpAddress'])
                 data = {
+                    "InstanceId": instance['InstanceId'],
                     "InstanceType": instance['InstanceType'],
                     "LaunchTime": str(instance['LaunchTime']),
                     "PublicIpAddress": instance['PublicIpAddress'],
                     "PrivateIpAddress": instance['PrivateIpAddress'],
                 }
-                response_data[instance["InstanceId"]] = data
+                response_data.append(data)
 
         response_data = json.dumps(response_data)
 
         response = make_response()
+        response.headers.add("Content-Type", "application/json")
         response.data = response_data
 
         return response
     else:
-        print("ERROR")
         return "500"
 
 if __name__ == "__main__":

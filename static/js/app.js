@@ -18,7 +18,24 @@ myApp.config(['$routeProvider',
       });
   }]);
 
-myApp.controller('APIFormController', ['$scope', '$http', function($scope, $http) {
+myApp.service('instancesService', function() {
+  var instances = [];
+
+  var addInstance = function(obj){
+    instances.push(obj);
+  };
+
+  var getInstances = function(obj){
+    return instances;
+  };
+
+  return {
+    addInstance: addInstance,
+    getInstances: getInstances
+  };
+});
+
+myApp.controller('APIFormController', ['$scope', '$http', '$location', 'instancesService', function($scope, $http, $location, instancesService) {
   $scope.apiKeys;
 
   $scope.sendKeys = function() {
@@ -33,12 +50,25 @@ myApp.controller('APIFormController', ['$scope', '$http', function($scope, $http
         'Content-Type': "application/json"
       }
     }).then(
-      function success(){
-        // send to the instances page and display the data
+      function success(response){
+        console.log(response.data);
+        console.log(typeof(response.data));
+        for (var i = 0; i < response.data.length; i++){
+          instancesService.addInstance(response.data[i]);
+        }
+        console.log(instancesService.getInstances().length);
+        $location.path("/instances");
       },
       function error(){
         // display the errors
+        alert("An error occurred!");
       }
     );
   };
+}]);
+
+
+myApp.controller('InstancesViewController', ['$scope', 'instancesService', function($scope, instancesService) {
+  $scope.instances = instancesService.getInstances();
+  
 }]);
