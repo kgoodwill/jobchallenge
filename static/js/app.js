@@ -22,7 +22,7 @@ myApp.service('instancesService', function() {
   var instances = [];
 
   var addInstance = function(obj){
-    instances.push(obj);
+      instances.push(obj);
   };
 
   var getInstances = function(obj){
@@ -51,12 +51,9 @@ myApp.controller('APIFormController', ['$scope', '$http', '$location', 'instance
       }
     }).then(
       function success(response){
-        console.log(response.data);
-        console.log(typeof(response.data));
         for (var i = 0; i < response.data.length; i++){
           instancesService.addInstance(response.data[i]);
         }
-        console.log(instancesService.getInstances().length);
         $location.path("/instances");
       },
       function error(){
@@ -70,5 +67,5 @@ myApp.controller('APIFormController', ['$scope', '$http', '$location', 'instance
 
 myApp.controller('InstancesViewController', ['$scope', 'instancesService', function($scope, instancesService) {
   $scope.instances = instancesService.getInstances();
-  
+
 }]);
